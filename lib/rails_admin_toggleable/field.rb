@@ -24,6 +24,16 @@ module RailsAdmin
 
           register_instance_option :pretty_value do
             def g_js
+              label = bindings[:object].try(:toggle_label, name.to_s)
+              if label
+                the_action = "if (confirm(\"#{label}\")) {#{g_js_toggle_request}}"
+              else
+                the_action = g_js_toggle_request
+              end
+              js_start = "#{the_action};return false;"
+            end
+
+            def g_js_toggle_request
               <<-END.strip_heredoc.gsub("\n", ' ').gsub(/ +/, ' ')
                 var $t = $(this);
                 var old_html = $t.html();
@@ -44,7 +54,6 @@ module RailsAdmin
                     alert(e.responseText);
                   }
                 });
-                return false;
               END
             end
 
