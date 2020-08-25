@@ -41,6 +41,27 @@ Make the field you need toggleable:
       ...
     end
 
+## Confirmation
+
+It's possible to add a simple confirmation to the toggle button.
+
+In order to do it, you need to add a `toggle_label` method to your model.
+It receives one argument - string name of the field. Based on the field name
+one can provide a confirmation text.
+
+If the method returns `nil` confirmation is not displayed.
+
+
+```
+def toggle_label(field_name)
+  if field_name == 'email_sent'
+    'Confirm toggling email sent status?'
+  else
+    nil
+  end
+end
+```
+
 ## Bulk action usage
 
     # Add the bulk action:
@@ -71,13 +92,13 @@ Make the field you need toggleable:
             ['Adder::Contest'].include? bindings[:abstract_model].model_name
           end
         end
-        
+
         bulk_enable_deleted
         bulk_disable_deleted
         bulk_toggle_deleted
       end
     end
-    
+
 ## Contributing
 
 1. Fork it
